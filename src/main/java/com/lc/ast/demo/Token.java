@@ -19,6 +19,14 @@ public class Token {
         return value;
     }
 
+    @Override
+    public String toString() {
+        return "Token{" +
+                "type=" + type +
+                ", value='" + value + '\'' +
+                '}';
+    }
+
 
     // Getters and other methods...
 }
