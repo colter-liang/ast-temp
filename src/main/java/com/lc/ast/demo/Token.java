@@ -1,7 +1,7 @@
 package com.lc.ast.demo;
 
 public class Token {
-    public enum TokenType {NUMBER, OPERATOR, FUNCTION, LIST_VARIABLE, TIME_UNIT, LPAREN, RPAREN}
+    public enum TokenType {NUMBER, OPERATOR, FUNCTION, LIST_VARIABLE, TIME_UNIT, LPAREN, RPAREN, NEGATIVE_SIGN}
 
     private final TokenType type;
     private final String value;

@@ -58,7 +58,14 @@ public class Parser {
             return new ListVariableNode(token.getValue());
         } else if (token.getType() == Token.TokenType.TIME_UNIT) {
             return new TimeUnitNode(token.getValue());
-        } else {
+        } else if(token.getType() == Token.TokenType.OPERATOR){
+            Token negative = tokens.get(current++);
+            if (current >= tokens.size() || !")".equals(tokens.get(current).getValue())) {
+                throw new IllegalArgumentException("Expected ')'");
+            }
+            current++; // Consume ')'
+            return new NumberNode(Double.parseDouble(negative.getValue()));
+        }else {
             throw new IllegalArgumentException("Invalid factor");
         }
     }

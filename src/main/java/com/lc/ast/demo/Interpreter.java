@@ -78,6 +78,9 @@ public class Interpreter {
                 extracted(operator, (Double) lValue, (Double) rValue, result);
             }
             return result;
+        }else if(leftValue instanceof Double lv && rightValue instanceof Double vValue){
+            extracted(operator, lv, vValue, result);
+            return result.get(0);
         }
 
         throw new RuntimeException("Unsupport operation:" + leftValue.getClass() + " " + rightValue.getClass());
