@@ -1,6 +1,10 @@
 package com.lc.ast.demo;
 
-import com.lc.ast.demo.node.Node;
+import com.lc.ast.demo.ast.Interpreter;
+import com.lc.ast.demo.ast.Lexer;
+import com.lc.ast.demo.ast.Parser;
+import com.lc.ast.demo.ast.Token;
+import com.lc.ast.demo.ast.node.Node;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -11,6 +15,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MainTest {
 
+    @Test
+    public void test8() {
+        List<Double> result = (List<Double>) parse("F.US.NT.BON.INX.CHYO.99LVUSD999Q@scenario+F.CN.NT.BON.INX.CHYO.99LVUSD999Q@base/F.US.NT.BON.INX.CHYO.99LVUSD999Q@scenario");
+        List<Double> excepted = List.of(3.0, 3.0, 3.0);
+        for (int i = 0; i < result.size(); i++) {
+            assertEquals(excepted.get(i), result.get(i), 0.01);
+        }
+    }
 
     @Test
     public void test7() {
@@ -27,7 +39,7 @@ class MainTest {
 
     @Test
     public void test5() {
-        List<Double> result = (List<Double>) parse("6+22.0e-2*lag(INPUT.B,2,quarter)");
+        List<Double> result = (List<Double>) parse("6+22.0e-2*lag(F.CN.NT.BON.INX.CHYO.99LVUSD999Q@base,2,quarter)");
         List<Double> excepted = List.of(7.1, 7.1, 7.1);
         for (int i = 0; i < result.size(); i++) {
             assertEquals(excepted.get(i), result.get(i), 0.01);
@@ -36,7 +48,7 @@ class MainTest {
 
     @Test
     public void test4() {
-        List<Double> result = (List<Double>) parse("diff( (-1) + lag(INPUT.A ,(-3), quarter) ,month) / lag(INPUT.B,2,quarter)");
+        List<Double> result = (List<Double>) parse("diff( (-1) + lag(F.US.NT.BON.INX.CHYO.99LVUSD999Q@scenario ,(-3), quarter) ,month) / lag(F.CN.NT.BON.INX.CHYO.99LVUSD999Q@base,2,quarter)");
         List<Double> excepted = List.of(0.2, 0.2, 0.2);
         for (int i = 0; i < result.size(); i++) {
             assertEquals(excepted.get(i), result.get(i), 0.01);
@@ -45,7 +57,7 @@ class MainTest {
 
     @Test
     public void test3() {
-        List<Double> result = (List<Double>) parse("diff( (-1) + lag(INPUT.A ,(-3), quarter) ,month)");
+        List<Double> result = (List<Double>) parse("diff( (-1) + lag(F.US.NT.BON.INX.CHYO.99LVUSD999Q@scenario ,(-3), quarter) ,month)");
         List<Double> excepted = List.of(1.0, 1.0, 1.0);
         for (int i = 0; i < result.size(); i++) {
             assertEquals(excepted.get(i), result.get(i), 0.01);
@@ -54,7 +66,7 @@ class MainTest {
 
     @Test
     public void test2() {
-        List<Double> result = (List<Double>) parse("lag(INPUT.A ,(-3), quarter)");
+        List<Double> result = (List<Double>) parse("lag(F.US.NT.BON.INX.CHYO.99LVUSD999Q@scenario ,(-3), quarter)");
         List<Double> excepted = List.of(-1.0, -1.0, -1.0);
         for (int i = 0; i < result.size(); i++) {
             assertEquals(excepted.get(i), result.get(i), 0.01);
@@ -79,8 +91,8 @@ class MainTest {
         Parser parser = new Parser(tokens);
         Node ast = parser.parse();
         Map<String, List<Double>> variables = new HashMap<>();
-        variables.put("INPUT.A", List.of(1.0, 1.0, 1.0));
-        variables.put("INPUT.B", List.of(2.0, 2.0, 2.0));
+        variables.put("F.US.NT.BON.INX.CHYO.99LVUSD999Q@scenario", List.of(1.0, 1.0, 1.0));
+        variables.put("F.CN.NT.BON.INX.CHYO.99LVUSD999Q@base", List.of(2.0, 2.0, 2.0));
         Interpreter interpreter = new Interpreter(variables);
         Object result = interpreter.interpret(ast);
         System.out.println(result);

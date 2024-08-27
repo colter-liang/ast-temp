@@ -1,6 +1,6 @@
-package com.lc.ast.demo;
+package com.lc.ast.demo.ast;
 
-import com.lc.ast.demo.node.*;
+import com.lc.ast.demo.ast.node.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,10 +54,10 @@ public class Parser {
             }
             current++; // Consume ')'
             return node;
-        } else if (token.getType() == Token.TokenType.LIST_VARIABLE) {
-            return new ListVariableNode(token.getValue());
-        } else if (token.getType() == Token.TokenType.TIME_UNIT) {
-            return new TimeUnitNode(token.getValue());
+        } else if (token.getType() == Token.TokenType.PARAMETER_VARIABLE) {
+            return new ParamVariableNode(token.getValue());
+        } else if (token.getType() == Token.TokenType.STR_PARAM) {
+            return new StrParamNode(token.getValue());
         } else if(token.getType() == Token.TokenType.OPERATOR){
             Token negative = tokens.get(current++);
             if (current >= tokens.size() || !")".equals(tokens.get(current).getValue())) {

@@ -1,7 +1,8 @@
-package com.lc.ast.demo;
+package com.lc.ast.demo.ast;
 
 
-import com.lc.ast.demo.node.*;
+import com.lc.ast.demo.FunctionUtil;
+import com.lc.ast.demo.ast.node.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,15 +46,15 @@ public class Interpreter {
             } else {
                 throw new RuntimeException("Unsupported Function:" + funcNode.getFunctionName());
             }
-        } else if (node instanceof ListVariableNode) {
-            ListVariableNode varNode = (ListVariableNode) node;
+        } else if (node instanceof ParamVariableNode) {
+            ParamVariableNode varNode = (ParamVariableNode) node;
             Object varValue = variables.get(varNode.getVariableName());
             if (varValue == null) {
                 throw new IllegalArgumentException("Undefined variable: " + varNode.getVariableName());
             }
             return varValue; // Assuming the variable holds a single value
-        } else if (node instanceof TimeUnitNode) {
-            TimeUnitNode timeUnitNode = (TimeUnitNode) node;
+        } else if (node instanceof StrParamNode) {
+            StrParamNode timeUnitNode = (StrParamNode) node;
             return timeUnitNode.getUnit();
         }
         throw new IllegalArgumentException("Unsupported node type: " + node.getClass().getSimpleName());

@@ -1,9 +1,9 @@
-package com.lc.ast.demo.node;
+package com.lc.ast.demo.ast.node;
 
-public class ListVariableNode extends Node {
+public class ParamVariableNode extends Node {
     private final String variableName;
 
-    public ListVariableNode(String variableName) {
+    public ParamVariableNode(String variableName) {
         this.variableName = variableName;
     }
 

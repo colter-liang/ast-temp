@@ -1,4 +1,4 @@
-package com.lc.ast.demo.node;
+package com.lc.ast.demo.ast.node;
 
 public class OperationNode extends Node {
     private final String operator;

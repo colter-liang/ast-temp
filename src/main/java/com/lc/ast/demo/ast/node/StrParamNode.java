@@ -1,9 +1,9 @@
-package com.lc.ast.demo.node;
+package com.lc.ast.demo.ast.node;
 
-public class TimeUnitNode extends Node {
+public class StrParamNode extends Node {
     private final String unit;
 
-    public TimeUnitNode(String unit) {
+    public StrParamNode(String unit) {
         this.unit = unit;
     }
 

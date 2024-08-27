@@ -1,4 +1,4 @@
-package com.lc.ast.demo.node;
+package com.lc.ast.demo.ast.node;
 
 import java.util.List;
 

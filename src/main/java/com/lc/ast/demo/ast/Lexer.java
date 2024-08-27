@@ -1,4 +1,4 @@
-package com.lc.ast.demo;
+package com.lc.ast.demo.ast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,21 +11,18 @@ public class Lexer {
 //    public static final String NUMBER = "-?\\d+(\\.\\d+)?"; // () -
     public static final String NUMBER = "-?\\d+(\\.\\d+)?(e[-+]?\\d+)?";
     public static final String OPERATOR = "[+\\-*/]";
-    public static final String METHOD = "diff|lag";
-    public static final String PARAM = "INPUT\\.(A|B)";
+    public static final String METHOD = "diff|lag|\\+rel|lndiff";
+    public static final String PARAM = "[A-Za-z]\\.([A-Za-z]{2})\\.([A-Za-z0-9\\\\.]{27})@(scenario|base)";
     public static final String NUMBER2 = "\\d+";
-    public static final String QM = "\\b(quarter|month)\\b";
+    public static final String STR_PARAM = "\\b(quarter|month|year|q2m|m2q|linear)\\b";
     private final String input;
     private final Pattern pattern;
     private final Pattern patternNegative;
 
     public Lexer(String input) {
         this.input = input;
-        this.pattern = Pattern.compile(
-                //"(-?\\d+(\\.\\d+)?)|([+\\-*/()])|(diff|lag)|INPUT\\.(A|B)|\\d+|(\\b(quarter|month)\\b)"
-                "(-?\\d+(\\.\\d+)?(e[-+]?\\d+)?)|([+\\-*/()])|([()])|(diff|lag)|INPUT\\.(A|B)|\\d+|(\\b(quarter|month)\\b)"
-
-        );
+        String formatted = "(%s)|(%s)|(%s)|(%s)|(%s)|([()])".formatted(NUMBER, OPERATOR, METHOD, PARAM, STR_PARAM);
+        this.pattern = Pattern.compile(formatted);
         this.patternNegative = Pattern.compile("-");
     }
 
@@ -47,9 +44,9 @@ public class Lexer {
             } else if (match.matches(METHOD)) {
                 tokens.add(new Token(Token.TokenType.FUNCTION, match));
             } else if (match.matches(PARAM)) {
-                tokens.add(new Token(Token.TokenType.LIST_VARIABLE, match));
-            } else if (match.matches(QM)) {
-                tokens.add(new Token(Token.TokenType.TIME_UNIT, match));
+                tokens.add(new Token(Token.TokenType.PARAMETER_VARIABLE, match));
+            } else if (match.matches(STR_PARAM)) {
+                tokens.add(new Token(Token.TokenType.STR_PARAM, match));
             } else if ("-".equals(match)) {
                 // Determine if '-' is a negative sign or a subtraction operator.
                 Matcher matcherNegative = patternNegative.matcher(input.substring(matcher.end()));
